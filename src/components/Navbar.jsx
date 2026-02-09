@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import {assets} from '../assets/assets.js'
 import { useAppContext } from '../context/AppContext.jsx'
@@ -12,13 +13,24 @@ const {
   setIsSeller,
   isLoggedIn,
   setIsLoggedIn,
-  navigate
+  navigate,
+  setSearchQuery,
+  searchQuery,
+  getCartCount
 } = useAppContext();
 
     const logout = async () => {
         setUser(null);
         navigate('/');
     }
+
+    useEffect(() => {
+        if (searchQuery.length > 0) {
+            navigate('/products');
+            
+        }
+    }, [searchQuery]);
+
     return (
         <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
 
@@ -33,14 +45,14 @@ const {
                 <NavLink to = '/'>Contact</NavLink>
 
                 <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
-                    <input className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search products" />
+                    <input onChange={(e) => setSearchQuery(e.target.value)} className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search products" />
                     
                     <img className="h-4 w-4" src={assets.search_icon} alt="Search Icon" />
                 </div>
 
-                <div className="relative cursor-pointer">
+                <div onClick={() => navigate('/cart')} className="relative cursor-pointer">
                     <img className="opacity-80 w-6 " src={assets.nav_cart_icon} alt="Cart Icon" />
-                    <button className="absolute -top-2 -right-3 text-xs text-white bg-primary w-[18px] h-[18px] rounded-full">0</button>
+                    <button className="absolute -top-2 -right-3 text-xs text-white bg-primary w-[18px] h-[18px] rounded-full">{getCartCount()}</button>
                 </div>
 
                 {!user ? (<button onClick = {() => setIsLoggedIn(true)} className="cursor-pointer px-8 py-2 bg-primary hover:bg-primary-dull transition text-white rounded-full">
@@ -56,10 +68,17 @@ const {
                 </div>)}
             </div>
 
-            <button onClick={() => open ? setOpen(false) : setOpen(true)} aria-label="Menu" className="sm:hidden">
+            <div className='flex items-center gap-6 sm:hidden'>
+                <div onClick={() => navigate('/cart')} className="relative cursor-pointer">
+                    <img className="opacity-80 w-6 " src={assets.nav_cart_icon} alt="Cart Icon" />
+                    <button className="absolute -top-2 -right-3 text-xs text-white bg-primary w-[18px] h-[18px] rounded-full">{getCartCount()}</button>
+                </div>
+                 <button onClick={() => open ? setOpen(false) : setOpen(true)} aria-label="Menu" className="">
                 {/* Menu Icon SVG */}
                 <img className="h-6 w-6" src={assets.menu_icon} alt="Menu Icon" />
             </button>
+            </div>
+           
 
             {/* Mobile Menu */}
             { open && (

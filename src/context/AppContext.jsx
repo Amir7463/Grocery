@@ -13,9 +13,10 @@ export const AppContextProvider = ({ children }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [isSeller, setIsSeller] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
     const [products, setProducts] = useState([]);
     const [cartItems, setCartItems] = useState({});
+    const [searchQuery, setSearchQuery] = useState({});
 
     // Fetch products (dummy implementation)
     const fetchProducts = async () => {
@@ -55,13 +56,32 @@ export const AppContextProvider = ({ children }) => {
        toast.success("Item removed from cart");
        setCartItems(cartData);
     }
+// Get Cart Item count
+const getCartCount = () => {
+    let totalCount = 0;
+    for(let itemId in cartItems) {
+        totalCount += cartItems[itemId];
+    }
+    return totalCount;
+}
 
+//get Cart Total Amount
+const getCartAmount = () => {
+    let totalAmount = 0;
+    for(let items in cartItems) {
+        let itemInfo = products.find((product) => product._id === items);
+        if(cartItems[items] > 0){
+            totalAmount += itemInfo.offerPrice * cartItems[items];
+        }
+    }
+    return Math.floor(totalAmount * 100) / 100;
+}
 
     useEffect(() => {
         fetchProducts();
     }, []);
 
-    const value = {navigate, user, setUser, isSeller, setIsSeller, isLoggedIn, setIsLoggedIn, products, setProducts, currency,addToCart, cartItems, setCartItems,updateCartItem,removeFromCart}; 
+    const value = {navigate, user, setUser, isSeller, setIsSeller, isLoggedIn, setIsLoggedIn, products, setProducts, currency,addToCart, cartItems, setCartItems,updateCartItem,removeFromCart, searchQuery, setSearchQuery, getCartCount, getCartAmount}; 
     return (
         <AppContext.Provider value={value}>
             {children}

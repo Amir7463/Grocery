@@ -3,6 +3,7 @@ import  MainBanner  from '../components/MainBanner.jsx';
 import Categories from '../components/Categories.jsx';
 import BestSeller from '../components/BestSeller.jsx';
 import BottomBanner from '../components/BottomBanner.jsx';
+import NewsLater from '../components/NewsLater.jsx';
 
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
         <Categories />
         <BestSeller />
         <BottomBanner />
+        <NewsLater />
         </div>
     )
 }
