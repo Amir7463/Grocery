@@ -13,10 +13,12 @@ export const AppContextProvider = ({ children }) => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
     const [isSeller, setIsSeller] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [products, setProducts] = useState([]);
     const [cartItems, setCartItems] = useState({});
     const [searchQuery, setSearchQuery] = useState({});
+    const [showLogin, setShowLogin] = useState(false);
+
 
     // Fetch products (dummy implementation)
     const fetchProducts = async () => {
@@ -37,12 +39,13 @@ export const AppContextProvider = ({ children }) => {
     }
 
     // update cart  items quantity
-    const updateCartItem = () => {
-        let cartData = structuredClone(cartItems);
-        cartData[itemId] = quantity;
-        setCartItems(cartData);
-        toast.success("Cart updated");
-    }
+   const updateCartItem = (itemId, quantity) => {
+    let cartData = structuredClone(cartItems);
+    cartData[itemId] = quantity;
+    setCartItems(cartData);
+    toast.success("Cart updated");
+}
+
 
     // removw Product from Cart
     const removeFromCart = (itemId) => {
@@ -81,7 +84,8 @@ const getCartAmount = () => {
         fetchProducts();
     }, []);
 
-    const value = {navigate, user, setUser, isSeller, setIsSeller, isLoggedIn, setIsLoggedIn, products, setProducts, currency,addToCart, cartItems, setCartItems,updateCartItem,removeFromCart, searchQuery, setSearchQuery, getCartCount, getCartAmount}; 
+    const value = {navigate, user, setUser, isSeller, setIsSeller, isLoggedIn, setIsLoggedIn, products, setProducts, currency,addToCart, cartItems, setCartItems,updateCartItem, removeFromCart, searchQuery, setSearchQuery, getCartCount, getCartAmount, showLogin, setShowLogin,
+}; 
     return (
         <AppContext.Provider value={value}>
             {children}

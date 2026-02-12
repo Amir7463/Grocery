@@ -7,17 +7,19 @@ const Login = () => {
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const {setIsLoggedIn, user, setUser} = useAppContext();
+    const {setIsLoggedIn, user, setUser, setShowLogin} = useAppContext();
+    
     const onSubmitHandler = async(e) => {
         e.preventDefault();
        setUser({
         email: "test@great.com",
         name: "Test User"
        })
-       setIsLoggedIn(false);
+       setIsLoggedIn(true);
+       setShowLogin(false);
     }
     return (
-        <div onClick={() => setIsLoggedIn(false)} className="fixed top-0 bottom-0 left-0 right-0 z-30 flex items-center text-sm text-gray-600 bg-black/50">
+        <div onClick={() => setShowLogin(false)} className="fixed top-0 bottom-0 left-0 right-0 z-30 flex items-center text-sm text-gray-600 bg-black/50">
 
              <form onSubmit={onSubmitHandler} onClick={(e) => e.stopPropagation()} className="flex flex-col gap-4 m-auto items-start p-8 py-12 w-80 sm:w-[352px] text-gray-500 rounded-lg shadow-xl border border-gray-200 bg-white">
             <p className="text-2xl font-medium m-auto">
