@@ -1,4 +1,4 @@
-  import Address from "../models/Address.js";
+  import Address from "../models/address.js";
 
   // ✅ Add address (guest + logged-in)
   export const addAddress = async (req, res) => {
