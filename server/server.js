@@ -21,8 +21,9 @@ const PORT = process.env.PORT || 3000;
 await connectDB();
 
 const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:5173'
+  'http://localhost:3000',               // Local development ke liye
+  'http://localhost:5173',               // Vite local development ke liye
+  'https://grocery-omega-gray.vercel.app' // Aapka LIVE Frontend (Vercel) link
 ];
 
 app.use(express.json());
